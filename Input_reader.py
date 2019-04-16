@@ -19,8 +19,8 @@ class InputData:
         self.evac_info = None
         self.arcs = None
 
-    def parsedata(self):
-        myfile = open('./Exemple/graphe-TD-sans-DL-data.txt', 'r')
+    def parsedata(self, path):
+        myfile = open(path, 'r')
         ins = myfile.readlines()
         i = 0
         state = 0
@@ -71,13 +71,13 @@ class InputData:
                 i = i + 1
 
     def print_input_data(self):
+
         print("========================")
         print("INFORMATION D'EVACUATION")
         print("========================")
         print("Nombre de noeuds à évacuer : " + str(self.num_evac_nodes))
         print("Sortie : " + str(self.safe_node))
         print("----------")
-
         for i in range(0, self.num_evac_nodes):
             s = "Trajet : " + str(self.evac_info[i][0])
             for j in range(0, self.evac_info[i][3]):
@@ -94,9 +94,14 @@ class InputData:
         print("Nombre de noeuds : " + str(self.num_nodes))
         print("Nombre d'arcs : " + str(self.num_arcs))
         print("-----------------")
-
+        for i in range(0, self.num_nodes):
+            for j in range(0, self.num_nodes):
+                if self.arcs[i, j] is not None:
+                    print("(" + str(i) + "," + str(j) + ") - Duedate : " + str(self.arcs[i, j].duedate)
+                          + " || Length : " + str(self.arcs[i, j].length) + " || Capacity : "
+                          + str(self.arcs[i, j].capacity))
 
 
 test = InputData()
-test.parsedata()
+test.parsedata('./Exemple/graphe-TD-sans-DL-data.txt')
 test.print_input_data()
