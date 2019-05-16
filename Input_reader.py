@@ -10,7 +10,6 @@ class ArcParameters:
 
 
 class InputData:
-
     def __init__(self):
         self.num_evac_nodes = None
         self.safe_node = None
