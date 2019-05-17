@@ -2,7 +2,7 @@
 def parse_instance(path):
 
     evac_paths = {}  # {node_id : {'pop', 'max_rate', 'route_length', 'route_nodes':[node1,node2,..]} }
-    arcs = {}  # arcs = {(node1,node2):{'duedate', 'length', 'capacity'}}
+    arcs = {}        # arcs = {(node1,node2):{'duedate', 'length', 'capacity'}}
 
     myfile = open(path, 'r')
     ins = myfile.readlines()
@@ -73,7 +73,7 @@ def print_input_data(evac_paths, arcs):
     print("========================")
     print("Nombre de noeuds à évacuer : " + str(len(evac_paths)))
     print("----------")
-    for keys, values in evac_path.items():
+    for keys, values in evac_paths.items():
         print(keys)
         print(values)
 
@@ -119,7 +119,8 @@ def parse_solution(path):
     return solution
 
 
-evac_path, arc = parse_instance('./Exemple/graphe-TD-sans-DL-data.txt')
-print_input_data(evac_path, arc)
-sol = parse_solution('./Exemple/graphe-TD-sans-DL-sol.txt')
-print(sol)
+def __main__():
+    evac_path, arc = parse_instance('./Exemple/graphe-TD-sans-DL-data.txt')
+    print_input_data(evac_path, arc)
+    sol = parse_solution('./Exemple/graphe-TD-sans-DL-sol.txt')
+    print(sol)
