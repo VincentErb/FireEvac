@@ -149,4 +149,25 @@ def run(instance_path, solution_path):
     print(calculate_objective(evac, g))
 
 
+# RUN THIS FUNCTION WITH A SOLUTION DICO CONTAINING THE FIELD "node_data"
+def run_dico(instance_path, solution_dico):
+    evac, ark = ir.parse_instance(instance_path)
+    sol = solution_dico
+    print("Checking max rate ... ", end='')
+    if check_max_rate(sol, evac, ark):
+        print("OK")
+    else:
+        print("FAILED")
+    print("Checking capacity ... ", end='')
+
+    g = create_gantt(sol, evac, ark)
+    if check_capacity(evac, ark, g):
+        print("OK")
+    else:
+        print("FAILED")
+
+    print("Objective function value : ", end='')
+    print(calculate_objective(evac, g))
+
+
 run('./Exemple/graphe-TD-sans-DL-data.txt', './Exemple/graphe-TD-sans-DL-sol.txt')
