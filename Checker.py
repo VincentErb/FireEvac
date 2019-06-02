@@ -170,4 +170,20 @@ def run_dico(instance_path, solution_dico):
     print(calculate_objective(evac, g))
 
 
+def run_with_objective(instance_path, solution_dico):
+    valid = True
+    evac, ark = ir.parse_instance(instance_path)
+    sol = solution_dico
+    print("Checking max rate ... ", end='')
+    if not(check_max_rate(sol, evac, ark)):
+        valid = False
+
+    print("Checking capacity ... ", end='')
+    g = create_gantt(sol, evac, ark)
+    if not(check_capacity(evac, ark, g)):
+        valid = False
+
+    return valid, calculate_objective(evac, g)
+
+
 run('./Exemple/graphe-TD-sans-DL-data.txt', './Exemple/graphe-TD-sans-DL-sol.txt')
