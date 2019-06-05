@@ -88,6 +88,6 @@ def borne_sup_solution(evac_path, arcs):
 
 evac, ark = ir.parse_instance('./Exemple/graphe-TD-sans-DL-data.txt')
 # print(borne_inf(evac, ark))
-# print(borne_sup(evac, ark))
+print(borne_sup(evac, ark))
 
 

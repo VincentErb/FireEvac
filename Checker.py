@@ -174,11 +174,11 @@ def run_with_objective(instance_path, solution_dico):
     valid = True
     evac, ark = ir.parse_instance(instance_path)
     sol = solution_dico
-    print("Checking max rate ... ", end='')
+    #print("Checking max rate ... ", end='')
     if not(check_max_rate(sol, evac, ark)):
         valid = False
 
-    print("Checking capacity ... ", end='')
+    #print("Checking capacity ... ", end='')
     g = create_gantt(sol, evac, ark)
     if not(check_capacity(evac, ark, g)):
         valid = False
