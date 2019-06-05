@@ -5,28 +5,28 @@ from copy import deepcopy
 import random as rd
 
 
-def local_search(instance_path, solution):
-    nb_accept = 20
+def local_search(instance_path, evac_path, solution):
+    nb_accept = 50
     cpt_validity = 0 # goes from 0 to nb_accept to allow non-valid solution for a time
-    ite = 1000
+    ite = 100
     modif_true = [solution, 100000, True]
     modif_false = [solution, 100000, False]
     better_solution = solution
-    while ite > 0 :
-        ite = ite -1
-
-
-        for i in range(10):
-            a = rd.randint(1, solution['nb_evac_nodes'])
-            b = rd.randint(0, 4)
+    list_start_node = []
+    for keys, values in evac_path.items():
+        list_start_node.append(keys)
+    print(list_start_node)
+    while ite > 0:
+        ite = ite - 1
+        for i in range(20):
+            a = rd.randint(0, len(list_start_node)-1)
+            b = rd.randint(0, 3)
             v, check_better_solution = chk.run_with_objective(instance_path, better_solution)
-            new_solution = modify_solution(better_solution, a, b)  # we modify one paramater of one path
-
+            new_solution = modify_solution(better_solution, list_start_node[a], b)  # we modify one paramater of one path
             valid, check_new_solution = chk.run_with_objective(instance_path, new_solution)
             print("new", chk.run_with_objective(instance_path, new_solution))
             print("better", chk.run_with_objective(instance_path, better_solution))
             if check_better_solution >= check_new_solution:
-
                 if valid:
                     cpt_validity = 0
                     better_solution = new_solution
@@ -40,9 +40,6 @@ def local_search(instance_path, solution):
                         modif_false[1] = check_new_solution
                     else:
                         better_solution = modif_true[0]
-
-        solution = better_solution
-
     print(modif_true)
 
     return new_solution
@@ -53,18 +50,22 @@ def modify_solution(solution, path_to_modify, modification):
     sol = deepcopy(solution)
     a, b = sol['node_data'][path_to_modify]
     if modification == 0:
-        if a != 1 :
+        if a != 1:
             (a, b) = (a - 1, b)
     elif modification == 1:
         (a, b) = (a + 1, b)
     elif modification == 2:
-        if b != 0 :
-            (a,b) = (a, b - 1)
+        if b != 0:
+            (a, b) = (a, b - 1)
     elif modification == 3:
         (a, b) = (a, b + 1)
     sol['node_data'][path_to_modify] = (a, b)
     return sol
 
-evac, ark = ir.parse_instance('./Instances/sparse_10_30_3_1_I.full')
-local_search('./Instances/sparse_10_30_3_2_I.full', brn.borne_sup_solution(evac, ark))
+evac, ark = ir.parse_instance('./Instances/sparse_10_30_3_2_I.full')
+local_search('./Instances/sparse_10_30_3_2_I.full', evac, brn.borne_sup_solution(evac, ark))
+
+# evac, ark = ir.parse_instance('./Exemple/graphe-TD-sans-DL-data.txt')
+# local_search('./Exemple/graphe-TD-sans-DL-data.txt', evac, brn.borne_sup_solution(evac, ark))
+
 

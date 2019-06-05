@@ -176,11 +176,14 @@ def run_with_objective(instance_path, solution_dico):
     sol = solution_dico
     #print("Checking max rate ... ", end='')
     if not(check_max_rate(sol, evac, ark)):
+        print("Max_rate")
         valid = False
 
     #print("Checking capacity ... ", end='')
     g = create_gantt(sol, evac, ark)
     if not(check_capacity(evac, ark, g)):
+        print("capacity")
+
         valid = False
 
     return valid, calculate_objective(evac, g)
