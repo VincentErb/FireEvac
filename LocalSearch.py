@@ -68,9 +68,10 @@ def modify_solution(solution, path_to_modify, modification):
 
 
 evac, ark = ir.parse_instance('./Instances/medium_10_30_3_2_I.full')
-#print(chk.run_with_objective('./Instances/sparse_10_30_3_2_I.full',brn.borne_sup_solution(evac, ark) ))
-local_search('./Instances/medium_10_30_3_2_I.full', evac, ark, brn.borne_sup_solution(evac, ark))
+# print(chk.run_with_objective('./Instances/sparse_10_30_3_2_I.full',brn.borne_sup_solution(evac, ark) ))
+# local_search('./Instances/medium_10_30_3_2_I.full', evac, ark, brn.borne_sup_solution(evac, ark))
+s = brn.borne_sup_solution(evac, ark)
+ir.create_solution_file(s)
 
-
-#evac, ark = ir.parse_instance('./Exemple/graphe-TD-sans-DL-data.txt')
-#local_search('./Exemple/graphe-TD-sans-DL-data.txt', evac, ark,  brn.borne_sup_solution(evac, ark))
+# evac, ark = ir.parse_instance('./Exemple/graphe-TD-sans-DL-data.txt')
+# local_search('./Exemple/graphe-TD-sans-DL-data.txt', evac, ark,  brn.borne_sup_solution(evac, ark))

@@ -130,6 +130,29 @@ def parse_solution(path):
     return solution
 
 
+def create_solution_file(solution_dico):
+    f1 = open('./outfile', 'w+')
+    print(solution_dico)
+    f1.write(solution_dico['instance_name'])
+    f1.write('\n')
+    f1.write(str(solution_dico['nb_evac_nodes']))
+    f1.write('\n')
+    soda = solution_dico['node_data']
+    for key in soda:
+        f1.write(str(key))
+        f1.write(" ")
+        f1.write(str(soda[key][0]))
+        f1.write(" ")
+        f1.write(str(soda[key][1]))
+        f1.write('\n')
+    f1.write(solution_dico['validity'])
+    f1.write('\n')
+    f1.write(str(solution_dico['aim_function']))
+    f1.write('\n')
+    f1.write(str(solution_dico['time']))
+    f1.close()
+
+
 def __main__():
     evac_path, arc = parse_instance('./Exemple/graphe-TD-sans-DL-data.txt')
     print_input_data(evac_path, arc)
