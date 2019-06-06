@@ -8,7 +8,7 @@ import random as rd
 def local_search(instance_path, evac_path, solution):
     nb_accept = 50
     cpt_validity = 0 # goes from 0 to nb_accept to allow non-valid solution for a time
-    ite = 100
+    ite = 10000
     modif_true = [solution, 100000, True]
     modif_false = [solution, 100000, False]
     better_solution = solution
@@ -65,12 +65,9 @@ def modify_solution(solution, path_to_modify, modification):
 
 
 evac, ark = ir.parse_instance('./Instances/sparse_10_30_3_2_I.full')
-print(chk.run_with_objective('./Instances/sparse_10_30_3_2_I.full',brn.borne_sup_solution(evac, ark) ))
+#print(chk.run_with_objective('./Instances/sparse_10_30_3_2_I.full',brn.borne_sup_solution(evac, ark) ))
 local_search('./Instances/sparse_10_30_3_2_I.full', evac, brn.borne_sup_solution(evac, ark))
 
-evac, ark = ir.parse_instance('./Instances/sparse_10_30_3_1_I.full')
-b = brn.borne_sup_solution(evac, ark)
-c = chk.run_with_objective('./Instances/sparse_10_30_3_1_I.full', b)
-print(c)
-# evac, ark = ir.parse_instance('./Exemple/graphe-TD-sans-DL-data.txt')
-# local_search('./Exemple/graphe-TD-sans-DL-data.txt', evac, brn.borne_sup_solution(evac, ark))
+
+#evac, ark = ir.parse_instance('./Exemple/graphe-TD-sans-DL-data.txt')
+#local_search('./Exemple/graphe-TD-sans-DL-data.txt', evac, brn.borne_sup_solution(evac, ark))

@@ -7,21 +7,25 @@ def borne_inf(evac_path, arcs):
     for keys, values in evac_path.items():
         long_route = 0
         prev = keys
+        max_rate = 10000
 
         # Length of a path
         for current_node in values['route_nodes']:
             if prev < current_node:
                 long_route = long_route + arcs[(prev, current_node)]['length']
-
+                if max_rate > arcs[(prev, current_node)]['capacity']:
+                    max_rate = arcs[(prev, current_node)]['capacity']
             else:
                 long_route = long_route + arcs[(current_node, prev)]['length']
+                if max_rate > arcs[(current_node, prev)]['capacity']:
+                    max_rate = arcs[(current_node, prev)]['capacity']
             # Update on previous node to advance in route
             prev = current_node
 
-        if values['pop'] % values['max_rate'] == 0:
-            trip = long_route + values['pop'] // values['max_rate']
+        if values['pop'] % max_rate == 0:
+            trip = long_route + values['pop'] // max_rate
         else:
-            trip = long_route + values['pop'] // values['max_rate'] + 1
+            trip = long_route + values['pop'] // max_rate + 1
         if trip > inf:
             inf = trip
     return inf
@@ -33,21 +37,26 @@ def borne_sup(evac_path, arcs):
     for keys, values in evac_path.items():
         long_route = 0
         prev = keys
+        max_rate = 10000
 
         # Length of a path
         for current_node in values['route_nodes']:
             if prev < current_node:
                 long_route = long_route + arcs[(prev, current_node)]['length']
+                if max_rate > arcs[(prev, current_node)]['capacity']:
+                    max_rate = arcs[(prev, current_node)]['capacity']
 
             else:
                 long_route = long_route + arcs[(current_node, prev)]['length']
+                if max_rate > arcs[(current_node, prev)]['capacity']:
+                    max_rate = arcs[(current_node, prev)]['capacity']
             # Update on previous node to advance in route
             prev = current_node
 
-        if values['pop'] % values['max_rate'] == 0:
-            trip = long_route + values['pop'] // values['max_rate']
+        if values['pop'] % max_rate == 0:
+            trip = long_route + values['pop'] // max_rate
         else:
-            trip = long_route + values['pop'] // values['max_rate'] + 1
+            trip = long_route + values['pop'] // max_rate + 1
         sup = sup + trip
     return sup
 
@@ -62,23 +71,27 @@ def borne_sup_solution(evac_path, arcs):
     for keys, values in evac_path.items():
         long_route = 0
         prev = keys
+        max_rate = 10000
 
         # Length of a path
         for current_node in values['route_nodes']:
             if prev < current_node:
                 long_route = long_route + arcs[(prev, current_node)]['length']
+                if max_rate > arcs[(prev, current_node)]['capacity']:
+                    max_rate = arcs[(prev, current_node)]['capacity']
 
             else:
                 long_route = long_route + arcs[(current_node, prev)]['length']
+                if max_rate > arcs[(current_node, prev)]['capacity']:
+                    max_rate = arcs[(current_node, prev)]['capacity']
             # Update on previous node to advance in route
             prev = current_node
 
-        if values['pop'] % values['max_rate'] == 0:
-            trip = long_route + values['pop'] // values['max_rate']
+        if values['pop'] % max_rate == 0:
+            trip = long_route + values['pop'] // max_rate
         else:
-            trip = long_route + values['pop'] // values['max_rate'] + 1
-        node_data[keys] = (values['max_rate'], start)
-        print(values['max_rate'])
+            trip = long_route + values['pop'] // max_rate + 1
+        node_data[keys] = (max_rate, start)
         start = start + trip # make the next evacuation node begin after the previous one as finished evacuating
     solution['node_data'] = node_data
 
