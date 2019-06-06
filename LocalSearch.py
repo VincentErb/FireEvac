@@ -64,6 +64,10 @@ def modify_solution(solution, path_to_modify, modification):
     return sol
 
 
+evac, ark = ir.parse_instance('./Instances/sparse_10_30_3_2_I.full')
+print(chk.run_with_objective('./Instances/sparse_10_30_3_2_I.full',brn.borne_sup_solution(evac, ark) ))
+local_search('./Instances/sparse_10_30_3_2_I.full', evac, brn.borne_sup_solution(evac, ark))
+
 evac, ark = ir.parse_instance('./Instances/sparse_10_30_3_1_I.full')
 b = brn.borne_sup_solution(evac, ark)
 c = chk.run_with_objective('./Instances/sparse_10_30_3_1_I.full', b)
