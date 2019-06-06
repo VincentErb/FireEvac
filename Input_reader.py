@@ -88,6 +88,17 @@ def print_input_data(evac_paths, arcs):
         print(values)
 
 
+def reverse_arcs(arcs):
+    res = arcs
+    for a in arcs:
+        if a[0] > a[1]:
+            tmp = (a[1], a[0])
+            vtmp = arcs[a]
+            del res[a]
+            res[tmp] = vtmp
+    return res
+
+
 # Parses solution data
 def parse_solution(path):
 

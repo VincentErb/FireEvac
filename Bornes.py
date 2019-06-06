@@ -51,6 +51,7 @@ def borne_sup(evac_path, arcs):
         sup = sup + trip
     return sup
 
+
 def borne_sup_solution(evac_path, arcs):
     solution = {}  # {'instance_name', 'nb_evac_nodes', 'node_data', 'validity', 'aim_function', 'time', 'method'}
     solution['instance_name'] = "Sup-borne-solution"
@@ -76,7 +77,8 @@ def borne_sup_solution(evac_path, arcs):
             trip = long_route + values['pop'] // values['max_rate']
         else:
             trip = long_route + values['pop'] // values['max_rate'] + 1
-        node_data[keys] = (values['max_rate'],start)
+        node_data[keys] = (values['max_rate'], start)
+        print(values['max_rate'])
         start = start + trip # make the next evacuation node begin after the previous one as finished evacuating
     solution['node_data'] = node_data
 

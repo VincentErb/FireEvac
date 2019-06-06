@@ -44,6 +44,7 @@ def local_search(instance_path, evac_path, solution):
 
     return new_solution
 
+
 def modify_solution(solution, path_to_modify, modification):
     # modification : 0 -> -1 on evac_rate, 1 -> +1 on evac_rate, 2 -> -1 on start 3-> +1 on start
     # print(solution['node_data'])
@@ -62,10 +63,10 @@ def modify_solution(solution, path_to_modify, modification):
     sol['node_data'][path_to_modify] = (a, b)
     return sol
 
-evac, ark = ir.parse_instance('./Instances/sparse_10_30_3_2_I.full')
-local_search('./Instances/sparse_10_30_3_2_I.full', evac, brn.borne_sup_solution(evac, ark))
 
+evac, ark = ir.parse_instance('./Instances/sparse_10_30_3_1_I.full')
+b = brn.borne_sup_solution(evac, ark)
+c = chk.run_with_objective('./Instances/sparse_10_30_3_1_I.full', b)
+print(c)
 # evac, ark = ir.parse_instance('./Exemple/graphe-TD-sans-DL-data.txt')
 # local_search('./Exemple/graphe-TD-sans-DL-data.txt', evac, brn.borne_sup_solution(evac, ark))
-
-

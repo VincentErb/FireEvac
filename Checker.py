@@ -11,6 +11,7 @@ import FireEvac.Input_reader as ir
 def check_max_rate(solution, evac_paths, arcs):
     solution_nodes = solution['node_data']
     valid = True
+    arcs = ir.reverse_arcs(arcs)
 
     for node_id, values in evac_paths.items():
         # Solution evac_rate
@@ -25,6 +26,10 @@ def check_max_rate(solution, evac_paths, arcs):
                 if ((prev < current_node) and (evac_rate > arcs[(prev, current_node)]['capacity']))\
                         or ((current_node < prev) and (evac_rate > arcs[(current_node, prev)]['capacity'])):
                     valid = False
+                    print("pb maxrate")
+                    print(prev)
+                    print(current_node)
+                    print(evac_rate)
 
                 # Update on previous node to advance in route
                 prev = current_node
@@ -36,6 +41,7 @@ def check_max_rate(solution, evac_paths, arcs):
 # Creates gantt blocks from evac data, solution data, and arcs from input data
 # To be used in capacity check
 def create_gantt(solution, evac_paths, arcs):
+    arcs = ir.reverse_arcs(arcs)
     gantt = {}                                                          # {'start_node', ('n1', 'n2'): 'evac_rate', 'start'}
     solution_nodes = solution['node_data']
 
@@ -76,6 +82,7 @@ def calculate_objective(evac_nodes, gantt):
 
 # Verifies capacity with gantt
 def check_capacity(evac_nodes, arcs, gantt):
+    arcs = ir.reverse_arcs(arcs)
     valid = True
 
     relevent_arcs = set()
@@ -85,7 +92,11 @@ def check_capacity(evac_nodes, arcs, gantt):
             relevent_arcs.add(key[1])
 
     for i in relevent_arcs:
-        cap = arcs[i]['capacity']
+        if i[0] < i[1]:
+            cap = arcs[i]['capacity']
+        else:
+            cap = arcs[(i[1], i[0])]['capacity']
+
         info = []
         for k in gantt:
             if k[1] == i:
@@ -113,6 +124,7 @@ def check_capacity(evac_nodes, arcs, gantt):
                     current_pers = current_pers + last
             if current_pers > cap:
                 print(i, "problem capacity =", cap)
+                print(current_pers)
                 valid = False
 
         return valid
@@ -174,12 +186,12 @@ def run_with_objective(instance_path, solution_dico):
     valid = True
     evac, ark = ir.parse_instance(instance_path)
     sol = solution_dico
-    #print("Checking max rate ... ", end='')
+    # print("Checking max rate ... ", end='')
     if not(check_max_rate(sol, evac, ark)):
         print("Max_rate")
         valid = False
 
-    #print("Checking capacity ... ", end='')
+    # print("Checking capacity ... ", end='')
     g = create_gantt(sol, evac, ark)
     if not(check_capacity(evac, ark, g)):
         print("capacity")
@@ -189,4 +201,4 @@ def run_with_objective(instance_path, solution_dico):
     return valid, calculate_objective(evac, g)
 
 
-run('./Exemple/graphe-TD-sans-DL-data.txt', './Exemple/graphe-TD-sans-DL-sol.txt')
+# run('./Exemple/graphe-TD-sans-DL-data.txt', './Exemple/graphe-TD-sans-DL-sol.txt')
