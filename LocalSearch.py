@@ -8,7 +8,7 @@ import random as rd
 def local_search(evac_path, arcs, solution):
     nb_accept = 50
     cpt_validity = 0 # goes from 0 to nb_accept to allow non-valid solution for a time
-    ite = 5000
+    ite = 10000
     modif_true = [solution, 100000, True]
     modif_false = [solution, 100000, False]
     better_solution = solution
@@ -67,9 +67,9 @@ def modify_solution(solution, path_to_modify, modification):
 
 
 
-evac, ark = ir.parse_instance('./Instances/sparse_10_30_3_7_I.full')
+evac, ark = ir.parse_instance('./Instances/dense_10_30_3_2_I.full')
 #print(chk.run_with_objective('./Instances/sparse_10_30_3_2_I.full',brn.borne_sup_solution(evac, ark) ))
-local_search(evac, ark, brn.borne_sup_solution(evac, ark))
+ir.create_solution_file(local_search(evac, ark, brn.borne_sup_solution(evac, ark)))
 
 
 #evac, ark = ir.parse_instance('./Exemple/graphe-TD-sans-DL-data.txt')
