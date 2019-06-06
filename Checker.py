@@ -26,10 +26,10 @@ def check_max_rate(solution, evac_paths, arcs):
                 if ((prev < current_node) and (evac_rate > arcs[(prev, current_node)]['capacity']))\
                         or ((current_node < prev) and (evac_rate > arcs[(current_node, prev)]['capacity'])):
                     valid = False
-                    print("pb maxrate")
-                    print(prev)
-                    print(current_node)
-                    print(evac_rate)
+                    #print("pb maxrate")
+                    #print(prev)
+                    #print(current_node)
+                    #print(evac_rate)
 
                 # Update on previous node to advance in route
                 prev = current_node
@@ -123,8 +123,8 @@ def check_capacity(evac_nodes, arcs, gantt):
                 elif j == st + ft - 1:
                     current_pers = current_pers + last
             if current_pers > cap:
-                print(i, "problem capacity =", cap)
-                print(current_pers)
+                # print(i, "problem capacity =", cap)
+                # print(current_pers)
                 valid = False
 
         return valid
@@ -188,13 +188,13 @@ def run_with_objective(instance_path, solution_dico):
     sol = solution_dico
     # print("Checking max rate ... ", end='')
     if not(check_max_rate(sol, evac, ark)):
-        print("Max_rate")
+        #print("Max_rate")
         valid = False
 
     # print("Checking capacity ... ", end='')
     g = create_gantt(sol, evac, ark)
     if not(check_capacity(evac, ark, g)):
-        print("capacity")
+        #print("capacity")
 
         valid = False
 
@@ -206,13 +206,13 @@ def run_with_objective_parsed(evac, ark, solution_dico):
     sol = solution_dico
     # print("Checking max rate ... ", end='')
     if not(check_max_rate(sol, evac, ark)):
-        print("Max_rate")
+        #print("Max_rate")
         valid = False
 
     # print("Checking capacity ... ", end='')
     g = create_gantt(sol, evac, ark)
     if not(check_capacity(evac, ark, g)):
-        print("capacity")
+        #print("capacity")
 
         valid = False
 

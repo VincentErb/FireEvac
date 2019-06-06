@@ -5,17 +5,16 @@ from copy import deepcopy
 import random as rd
 
 
-def local_search(instance_path, evac_path, arcs, solution):
+def local_search(evac_path, arcs, solution):
     nb_accept = 50
     cpt_validity = 0 # goes from 0 to nb_accept to allow non-valid solution for a time
-    ite = 10000
+    ite = 5000
     modif_true = [solution, 100000, True]
     modif_false = [solution, 100000, False]
     better_solution = solution
     list_start_node = []
     for keys, values in evac_path.items():
         list_start_node.append(keys)
-    print(list_start_node)
     while ite > 0:
         ite = ite - 1
         if modif_true[1] == brn.borne_inf(evac_path, arcs):
@@ -24,11 +23,11 @@ def local_search(instance_path, evac_path, arcs, solution):
             for i in range(20):
                 a = rd.randint(0, len(list_start_node)-1)
                 b = rd.randint(0, 3)
-                v, check_better_solution = chk.run_with_objective(instance_path, better_solution)
+                v, check_better_solution = chk.run_with_objective_parsed(evac_path, arcs, better_solution)
                 new_solution = modify_solution(better_solution, list_start_node[a], b)  # we modify one paramater of one path
-                valid, check_new_solution = chk.run_with_objective(instance_path, new_solution)
-                print("new", chk.run_with_objective(instance_path, new_solution))
-                print("better", chk.run_with_objective(instance_path, better_solution))
+                valid, check_new_solution = chk.run_with_objective_parsed(evac_path, arcs, new_solution)
+                #print("new", chk.run_with_objective_parsed(evac_path, arcs, new_solution))
+                #print("better", chk.run_with_objective_parsed(evac_path, arcs, better_solution))
                 if check_better_solution >= check_new_solution:
                     if valid:
                         cpt_validity = 0
@@ -43,7 +42,7 @@ def local_search(instance_path, evac_path, arcs, solution):
                             modif_false[1] = check_new_solution
                         else:
                             better_solution = modif_true[0]
-        print(modif_true)
+    print(modif_true)
 
     return new_solution
 
@@ -67,11 +66,12 @@ def modify_solution(solution, path_to_modify, modification):
     return sol
 
 
-evac, ark = ir.parse_instance('./Instances/medium_10_30_3_2_I.full')
-# print(chk.run_with_objective('./Instances/sparse_10_30_3_2_I.full',brn.borne_sup_solution(evac, ark) ))
-# local_search('./Instances/medium_10_30_3_2_I.full', evac, ark, brn.borne_sup_solution(evac, ark))
-s = brn.borne_sup_solution(evac, ark)
-ir.create_solution_file(s)
 
-# evac, ark = ir.parse_instance('./Exemple/graphe-TD-sans-DL-data.txt')
-# local_search('./Exemple/graphe-TD-sans-DL-data.txt', evac, ark,  brn.borne_sup_solution(evac, ark))
+evac, ark = ir.parse_instance('./Instances/sparse_10_30_3_7_I.full')
+#print(chk.run_with_objective('./Instances/sparse_10_30_3_2_I.full',brn.borne_sup_solution(evac, ark) ))
+local_search(evac, ark, brn.borne_sup_solution(evac, ark))
+
+
+#evac, ark = ir.parse_instance('./Exemple/graphe-TD-sans-DL-data.txt')
+#local_search(evac, ark,  brn.borne_sup_solution(evac, ark))
+
